@@ -194,7 +194,7 @@ public class clColumnas {
                 
                 Cell oVOBJ_CELL;
                 System.out.println("El numero de elementos es: "+nVNUM_COLUM);
-                for (int i = 0; i < nVNUM_COLUM; i++) {
+                /*for (int i = 0; i < nVNUM_COLUM; i++) {
                     nVBAN_DATO++;
                     //System.out.println(nVBAN_DATO);
                     if (oVCELL_ITER.hasNext()){
@@ -217,7 +217,23 @@ public class clColumnas {
                     }else{
                         cVCAD_VALO += " ";
                     }
+                }*/
+                while (oVCELL_ITER.hasNext()){
+                    nVBAN_DATO++;
+                    oVOBJ_CELL = oVCELL_ITER.next();
+                    switch (oVOBJ_CELL.getCellType()){
+                        case Cell.CELL_TYPE_NUMERIC:
+                            cVCAD_VALO += oVOBJ_CELL.getNumericCellValue() + "«";
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            cVCAD_VALO += oVOBJ_CELL.getStringCellValue() + "«";
+                            break;
+                        case Cell.CELL_TYPE_BOOLEAN:
+                            cVCAD_VALO += oVOBJ_CELL.getBooleanCellValue() + "«";
+                            break;
+                    }
                 }
+                
                 aVARR_VALO += cVCAD_VALO + "©";
                 cVCAD_VALO = "";
             }
