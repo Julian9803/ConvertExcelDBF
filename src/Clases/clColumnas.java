@@ -173,7 +173,7 @@ public class clColumnas {
         }
     }
     
-    public String[] leerXLSX(String cVPATH_EXCE){
+    public String[] leerXLSX(String cVPATH_EXCE, int nVNUM_COLUM){
         try {
             int nVNUM_DATO = 0; 
             int nVBAN_DATO = 0;
@@ -192,20 +192,30 @@ public class clColumnas {
                 oVOBJ_ROW = oVROW_ITER.next();
                 Iterator<Cell> oVCELL_ITER = oVOBJ_ROW.cellIterator();
                 
-                Cell oVOBJ_CELL;                
-                while (oVCELL_ITER.hasNext()){
+                Cell oVOBJ_CELL;
+                System.out.println("El numero de elementos es: "+nVNUM_COLUM);
+                for (int i = 0; i < nVNUM_COLUM; i++) {
                     nVBAN_DATO++;
-                    oVOBJ_CELL = oVCELL_ITER.next();
-                    switch (oVOBJ_CELL.getCellType()){
-                        case Cell.CELL_TYPE_NUMERIC:
-                            cVCAD_VALO += oVOBJ_CELL.getNumericCellValue() + "«";
-                            break;
-                        case Cell.CELL_TYPE_STRING:
-                            cVCAD_VALO += oVOBJ_CELL.getStringCellValue() + "«";
-                            break;
-                        case Cell.CELL_TYPE_BOOLEAN:
-                            cVCAD_VALO += oVOBJ_CELL.getBooleanCellValue() + "«";
-                            break;
+                    //System.out.println(nVBAN_DATO);
+                    if (oVCELL_ITER.hasNext()){
+                        oVOBJ_CELL = oVCELL_ITER.next();
+                        switch (oVOBJ_CELL.getCellType()){
+                            case Cell.CELL_TYPE_NUMERIC:
+                                cVCAD_VALO += oVOBJ_CELL.getNumericCellValue() + "«";
+                                break;
+                            case Cell.CELL_TYPE_STRING:
+                                cVCAD_VALO += oVOBJ_CELL.getStringCellValue() + "«";
+                                break;
+                            case Cell.CELL_TYPE_BOOLEAN:
+                                cVCAD_VALO += oVOBJ_CELL.getBooleanCellValue() + "«";
+                                break;
+                            default:
+                                cVCAD_VALO += " ";
+                                break;
+
+                        }
+                    }else{
+                        cVCAD_VALO += " ";
                     }
                 }
                 aVARR_VALO += cVCAD_VALO + "©";

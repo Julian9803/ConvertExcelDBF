@@ -330,20 +330,27 @@ public class Main extends javax.swing.JFrame {
         String cVMEN_RESP = "";
         if (lVLIS_CAMP.size() > 0){
             if (!txtNombre.getText().equals("")){
-                lblNotificacion.setText("Leyendo archivo de excel.");
-                String[] cVCAD_VALO = oVOBJ_COLUM.leerXLSX(oVFIL_EXCE.getAbsolutePath());
-                txtEstado.setText(cVCAD_VALO[1]);
-                lblNotificacion.setText("Registrando datos en el archivo DBF.");
-                String cVRES_ESCR = oVOBJ_COLUM.crearArchivo(lVLIS_CAMP, txtNombre.getText(), cVCAD_VALO[0], cVMEN_RESP);
                 
-                if (!cVRES_ESCR.equalsIgnoreCase("error")){
-                    txtEstado.setText(cVRES_ESCR);
-                    JOptionPane.showMessageDialog(rootPane, "Se realizo el proceso correctamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+                lblNotificacion.setText("Leyendo archivo de excel.");
+                String[] cVCAD_VALO = oVOBJ_COLUM.leerXLSX(oVFIL_EXCE.getAbsolutePath(),lVLIS_CAMP.size());
+                if (cVCAD_VALO != null){
+                    txtEstado.setText(cVCAD_VALO[1]);
+                
+                    lblNotificacion.setText("Registrando datos en el archivo DBF.");
+                    String cVRES_ESCR = oVOBJ_COLUM.crearArchivo(lVLIS_CAMP, txtNombre.getText(), cVCAD_VALO[0], cVMEN_RESP);
+
+                    if (!cVRES_ESCR.equalsIgnoreCase("error")){
+                        txtEstado.setText(cVRES_ESCR);
+                        JOptionPane.showMessageDialog(rootPane, "Se realizo el proceso correctamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        txtEstado.setText(cVRES_ESCR);
+                        JOptionPane.showMessageDialog(rootPane, "Ah ocurrido un error creando el archivo DBF, intentalo mas tarde.", "Error.", JOptionPane.ERROR_MESSAGE);
+                    }
+                    lblNotificacion.setText("Termine la lectura");
                 }else{
-                    txtEstado.setText(cVRES_ESCR);
+                    txtEstado.setText("Error");
                     JOptionPane.showMessageDialog(rootPane, "Ah ocurrido un error creando el archivo DBF, intentalo mas tarde.", "Error.", JOptionPane.ERROR_MESSAGE);
                 }
-                lblNotificacion.setText("Termine la lectura");
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Por favor digite el nombre que va a tener el archivo DBF.", "Avertencia", JOptionPane.WARNING_MESSAGE);
             }
@@ -351,11 +358,10 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Por favor registre las columnas del archivo DBF.", "Advertencia!", JOptionPane.WARNING_MESSAGE);
         }
         
-        
         if (oVOBJ_COLUM.extensionFile(oVFIL_EXCE).equalsIgnoreCase("xls")){
             oVOBJ_COLUM.leerXLS(oVFIL_EXCE.getAbsolutePath());
         }else{
-            oVOBJ_COLUM.leerXLSX(oVFIL_EXCE.getAbsolutePath());
+            oVOBJ_COLUM.leerXLSX(oVFIL_EXCE.getAbsolutePath(),lVLIS_CAMP.size());
         }
     }//GEN-LAST:event_btnLeerActionPerformed
 
